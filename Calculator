@@ -1,0 +1,74 @@
+package calculator;
+import javax.swing.*;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+public class Calculator extends JFrame implements ActionListener {
+    JPanel windowContent;
+    JTextArea display;
+    JPanel pl;
+    String[] buttonString = {"0","1","2","3","4","5","6","7","8","9","+","-","*","/",".","C","CC","(",")","="};
+    JButton[] b = new JButton[20];
+ 
+    Calculator() {
+        windowContent= new JPanel();
+        BorderLayout bl = new BorderLayout();
+        windowContent.setLayout(bl);
+        display = new JTextArea(1,40);
+        windowContent.add("North",display);
+        pl = new JPanel ();
+        GridLayout gl =new GridLayout(4,5);
+        pl.setLayout(gl);
+        windowContent.add("Center",pl);
+        for(int i=0;i<=19;i++)
+        {
+            b[i] = new JButton();
+            b[i].setText(buttonString[i]);
+            b[i].addActionListener(this);
+            pl.add(b[i]);
+        }
+        JFrame frame = new JFrame("Calculator");
+        frame.setContentPane(windowContent);
+        frame.pack();
+        frame.setSize(400,400);
+        frame.setResizable(false);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        for(int i=0;i<10;i++)
+        {
+            if(e.getSource()==b[i])
+                display.append(String.valueOf(i));
+        }     
+        if(e.getSource()==b[10])
+            display.append("+");
+        if(e.getSource()==b[11])
+            display.append("-");
+        if(e.getSource()==b[12])
+            display.append("*");
+        if(e.getSource()==b[13])
+            display.append("/");
+        if(e.getSource()==b[14])
+            display.append("."); 
+        if(e.getSource()==b[15])
+            display.setText(display.getText ().substring (0, display.getText ().length () - 1));
+        if(e.getSource()==b[16])
+            display.setText("");
+        if(e.getSource()==b[17])
+            display.append("(");
+        if(e.getSource()==b[18])
+            display.append(")");
+        if(e.getSource()==b[19])
+        {
+            String s = display.getText();
+            display.setText(String.valueOf(EvaluatorTester.main(s)));
+        }
+    }
+}
